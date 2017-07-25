@@ -1,0 +1,12 @@
+{
+  "menuitems" : [ {
+      "name": "Vadapav",
+      "imagepath": "vadapav.png",
+      "ingredients": "Potato, Gram flour"
+    }, {
+      "name": "Tadaka Dal",
+      "imagepath": "daltadka.png",
+      "ingredients": "Onion, Tomato, Red chilli, arhar dal, turmeric, garam masala, kasturi methi"
+    }
+  ]
+}

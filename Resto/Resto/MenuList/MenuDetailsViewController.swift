@@ -11,29 +11,31 @@ import UIKit
 class MenuDetailsViewController: UIViewController {
 
     @IBOutlet weak var SuggestionsCollectionView: UICollectionView!
+    @IBOutlet weak var itemDescriptionText: UITextView!
+    @IBOutlet weak var itemNameLabel: UILabel!
+    @IBOutlet weak var itemImageView: UIImageView!
+    @IBOutlet weak var qtyPlusButton: UIButton!
+    @IBOutlet weak var qtyMinusButton: UIButton!
+    
+    var currentMenuItem: MenuItem?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        configureView()
+        showMenuDetails()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    private func configureView() {
+        qtyPlusButton.layer.cornerRadius = qtyPlusButton.frame.width/2
+        qtyMinusButton.layer.cornerRadius = qtyMinusButton.frame.width/2
     }
-    */
-
+    
+    private func showMenuDetails() {
+        if let menuItem = currentMenuItem {
+            itemNameLabel.text = menuItem.name
+            itemImageView.image = UIImage(named:menuItem.imagePath) ?? nil
+        }
+    }
 }
 
 extension MenuDetailsViewController: UICollectionViewDelegate, UICollectionViewDataSource {

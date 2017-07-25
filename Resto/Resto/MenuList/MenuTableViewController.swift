@@ -7,23 +7,33 @@
 //
 
 import UIKit
+import SwiftyJSON
+
 
 class MenuTableViewController: UITableViewController {
-
+    
+    var menuItemList = [MenuItem]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
-
+        
+        createRightBarItem()
+        registerTableViewCell()
+        getMenuList()
+    }
+    
+    private func createRightBarItem() {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         let rightBarButtonItem = UIBarButtonItem(title: "Place Order", style: .done, target: self, action: #selector(MenuTableViewController.placeOrderButtonAction))
         self.navigationItem.rightBarButtonItem = rightBarButtonItem
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    private func registerTableViewCell() {
+        let nib = UINib(nibName: "MenuItemTableViewCell", bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: "MenuItemCell")
     }
     
     @objc func placeOrderButtonAction() {
@@ -32,24 +42,44 @@ class MenuTableViewController: UITableViewController {
         }
     }
     
+    func getMenuList() {
+        if let path = Bundle.main.path(forResource: "MenuItems", ofType: "json") {
+            do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .alwaysMapped)
+                let jsonObj = JSON(data: data)
+                if jsonObj != JSON.null {
+                    let menuListJSON = jsonObj["menuitems"]
+                    for menuJson in menuListJSON {
+                        let menuItem = MenuItem(menuItemJSON: menuJson.1)
+                        menuItemList.append(menuItem)
+                    }
+                } else {
+                    print("Could not get json from file, make sure that file contains valid json.")
+                }
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        } else {
+            print("Invalid filename/path.")
+        }
+        tableView.reloadData()
+    }
+}
+extension MenuTableViewController {
+    
     // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 5
+        return menuItemList.count
     }
-
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MenuItemTableViewCell", for: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MenuItemCell", for: indexPath) as! MenuItemTableViewCell
+        let menuItem = menuItemList[indexPath.row]
+        cell.configureMenuItemCell(menuItem: menuItem)
         return cell
     }
  
