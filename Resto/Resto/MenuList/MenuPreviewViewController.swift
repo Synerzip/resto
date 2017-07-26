@@ -22,6 +22,7 @@ class MenuPreviewViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         setupScene()
+        enableEnvironmentMapWithIntensity(30)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -41,7 +42,7 @@ class MenuPreviewViewController: UIViewController {
         sceneView.session = session
         sceneView.antialiasingMode = .multisampling4X
         sceneView.automaticallyUpdatesLighting = false
-        
+        sceneView.autoenablesDefaultLighting = true
         sceneView.preferredFramesPerSecond = 60
         sceneView.contentScaleFactor = 1.3
         sceneView.showsStatistics = true
@@ -62,6 +63,16 @@ class MenuPreviewViewController: UIViewController {
             worldSessionConfig.planeDetection = .horizontal
             session.run(worldSessionConfig, options: [.resetTracking, .removeExistingAnchors])
         }
+    }
+    
+    func enableEnvironmentMapWithIntensity(_ intensity: CGFloat) {
+        if sceneView.scene.lightingEnvironment.contents == nil {
+            if let environmentMap = UIImage(named: "Models.scnassets/sharedImages/environment_blur.exr") {
+                sceneView.scene.lightingEnvironment.contents = environmentMap
+                sceneView.scene.background.contents = environmentMap
+            }
+        }
+        sceneView.scene.lightingEnvironment.intensity = intensity
     }
     
     func createPlaneNode(anchor: ARPlaneAnchor) -> SCNNode {
@@ -86,6 +97,23 @@ class MenuPreviewViewController: UIViewController {
         
         return planeNode
     }
+    
+    func loadModel(anchor: ARPlaneAnchor) -> SCNNode? {
+        guard let virtualObjectScene = SCNScene(named: "cup.scn", inDirectory: "Models.scnassets/cup") else {
+            return nil
+        }
+        
+        let wrapperNode = SCNNode()
+        
+        for child in virtualObjectScene.rootNode.childNodes {
+            child.geometry?.firstMaterial?.lightingModel = .physicallyBased
+            child.movabilityHint = .movable
+            wrapperNode.addChildNode(child)
+        }
+        wrapperNode.position = SCNVector3Make(anchor.center.x, 0, anchor.center.z)
+//        wrapperNode.transform = SCNMatrix4MakeRotation(-Float.pi/2, 1, 0, 0)
+        return wrapperNode
+    }
 }
 
 extension MenuPreviewViewController: ARSCNViewDelegate {
@@ -93,9 +121,11 @@ extension MenuPreviewViewController: ARSCNViewDelegate {
         print("Node Added...")
         guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
         
-        let planeNode = createPlaneNode(anchor: planeAnchor)
+//        let planeNode = createPlaneNode(anchor: planeAnchor)
         // ARKit owns the node corresponding to the anchor, so make the plane a child node.
-        node.addChildNode(planeNode)
+//        node.addChildNode(planeNode)
+        let cupNode = loadModel(anchor: planeAnchor)
+        node.addChildNode(cupNode!)
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didRemove node: SCNNode, for anchor: ARAnchor) {
@@ -118,8 +148,10 @@ extension MenuPreviewViewController: ARSCNViewDelegate {
             (childNode, _) in
             childNode.removeFromParentNode()
         }
-        let planeNode = createPlaneNode(anchor: planeAnchor)
-        node.addChildNode(planeNode)
+//        let planeNode = createPlaneNode(anchor: planeAnchor)
+//        node.addChildNode(planeNode)
+        let cupNode = loadModel(anchor: planeAnchor)
+        node.addChildNode(cupNode!)
     }
 }
 
