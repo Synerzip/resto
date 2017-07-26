@@ -24,6 +24,10 @@ class HomeViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     func loadMenuList() {
         if let menuListSplitVC = self.storyboard?.instantiateViewController(withIdentifier: "MenuListSplitVC") as? UISplitViewController {
             self.addControllerToContainerView(menuListSplitVC)
