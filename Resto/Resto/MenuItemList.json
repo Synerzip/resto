@@ -1,0 +1,100 @@
+{
+  "menuitems" : [ {
+      "name": "Vadapav",
+      "imagepath": "vadapav",
+      "ingredients": "Potato, Gram flour",
+      "price": 30,
+      "description": "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    }, {
+      "name": "Tadaka Dal",
+      "imagepath": "daltadka",
+      "ingredients": "Onion, Tomato, Red chilli, arhar dal, turmeric, garam masala, kasturi methi",
+      "price": 125,
+      "description": "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+     }, {
+      "name": "Veg Raita",
+      "imagepath": "vegraita",
+      "ingredients": "Curd, Onion, Tomato, Coriander",
+      "price": 70,
+      "description": "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    }, {
+      "name": "Tandoori Roti",
+      "imagepath": "roti",
+      "ingredients": "Wheat flour",
+      "price": 45,
+      "description": "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    }, {
+      "name": "Paneer Tikka",
+      "imagepath": "paneertikka",
+      "ingredients": "Paneer, Capsicum, Red chilli, garam masala",
+      "price": 280,
+      "description": "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    }, {
+      "name": "Veg Kolhapuri",
+      "imagepath": "vegkolhapuri",
+      "ingredients": "White sesame seeds, corindar, cumin seeds, stone flower, green cardaom, bedgi red chilli",
+      "price": 250,
+      "description": "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    }, {
+      "name": "Chai",
+      "imagepath": "chai",
+      "ingredients": "Chai Powder, Milk, Sugar, Ginger",
+      "price": 25,
+      "description": "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    }, {
+      "name": "Masala Dosa",
+      "imagepath": "masaladosa",
+      "ingredients": "Idli Rice, Urad Dal, onion, potato",
+      "price": 65,
+      "description": "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    }, {
+      "name": "Pav Bhaji",
+      "imagepath": "pavbhaji",
+      "ingredients": "Carrot, tomato, capsicum, cumin seeds, corindar leaves, ginger-garlic paste, turmeric powder",
+      "price": 100,
+      "description": "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    }, {
+      "name": "Apple Juice",
+      "imagepath": "applejuice",
+      "ingredients": "Apple, Milk, Honey",
+      "price": 50,
+      "description": "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    }, {
+      "name": "Salad",
+      "imagepath": "salad",
+      "ingredients": "Cucumber, tomato, carrot",
+      "price": 50,
+      "description": "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    }, {
+      "name": "Misal Pav",
+      "imagepath": "misalpav",
+      "ingredients": "potatoes, onions, termeric powder, chilli powder, cumins seeds, coriander powder, curry leaves",
+      "price": 70,
+      "description": "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    }, {
+      "name": "Paneer Makhani",
+      "imagepath": "paneermakhani",
+      "ingredients": "Paneer, Tomatoes, tej patta, garam masala powder, methi",
+      "price": 260,
+      "description": "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    }, {
+      "name": "Matar Paneer",
+      "imagepath": "matarpaneer",
+      "ingredients": "Matar, Paneer, termeric powder, cumin seeds, corinder leaves",
+      "price": 240,
+      "description": "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    }, {
+      "name": "Paneer Chilli",
+      "imagepath": "paneerchillie",
+      "ingredients": "Paneer, red chilli powder, black paper powder, sesame oil, corn starch",
+      "price": 280,
+      "description": "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    }, {
+      "name": "Lassi",
+      "imagepath": "lassi",
+      "ingredients": "Curd, Milk, Sugar",
+      "price": 80,
+      "description": "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    }
+  ]
+}
