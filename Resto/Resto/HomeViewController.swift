@@ -40,6 +40,10 @@ class HomeViewController: UIViewController {
         }
     }
     
+    @IBAction func placeOrderButtonAction(sender: UIButton) {
+        loadPlaceOrder()
+    }
+    
     /**
      Add controller view to container view
      

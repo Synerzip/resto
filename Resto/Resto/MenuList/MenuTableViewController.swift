@@ -20,29 +20,19 @@ class MenuTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        let detailVC = self.splitViewController!.viewControllers.last as! MenuDetailsViewController
+        detailVC.menuDetailsActionDelegate = self
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
-        createRightBarItem()
         registerTableViewCell()
         getMenuList()
-    }
-    
-    private func createRightBarItem() {
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        let rightBarButtonItem = UIBarButtonItem(title: "Place Order", style: .done, target: self, action: #selector(MenuTableViewController.placeOrderButtonAction))
-        self.navigationItem.rightBarButtonItem = rightBarButtonItem
     }
     
     private func registerTableViewCell() {
         let nib = UINib(nibName: "MenuItemTableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "MenuItemCell")
-    }
-    
-    @objc func placeOrderButtonAction() {
-        if let homeVC = splitViewController?.parent as? HomeViewController {
-            homeVC.loadPlaceOrder()
-        }
     }
     
     func getMenuList() {
@@ -66,7 +56,11 @@ class MenuTableViewController: UITableViewController {
             print("Invalid filename/path.")
         }
         tableView.reloadData()
-        
+        showDefaultSelection()
+    }
+    
+    private func showDefaultSelection() {
+        // Show First item selected by Default
         let firstIndexPath = IndexPath(row: 0, section: 0)
         tableView.selectRow(at: firstIndexPath, animated: false, scrollPosition: .top)
         tableView(tableView, didSelectRowAt: firstIndexPath)
@@ -107,5 +101,13 @@ extension MenuTableViewController {
         let menuItem = menuItemList[indexPath.row]
         let suggestedItems = getSuggestedItems()
         menuListActionDelegate?.didSelectItem(menuItem: menuItem, suggestedItems: suggestedItems, atIndexpath: indexPath)
+    }
+}
+
+extension MenuTableViewController: MenuDetailsActionDelegate {
+    func didChangeItemQuantity(menuItem: MenuItem, quantity: Int, atIndexpath indexPath: IndexPath) {
+        menuItemList[indexPath.row].quantity = quantity
+        tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.none)
+        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
     }
 }
