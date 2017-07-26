@@ -69,7 +69,6 @@ class MenuPreviewViewController: UIViewController {
         if sceneView.scene.lightingEnvironment.contents == nil {
             if let environmentMap = UIImage(named: "Models.scnassets/sharedImages/environment_blur.exr") {
                 sceneView.scene.lightingEnvironment.contents = environmentMap
-                sceneView.scene.background.contents = environmentMap
             }
         }
         sceneView.scene.lightingEnvironment.intensity = intensity
