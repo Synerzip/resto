@@ -14,11 +14,13 @@ class MenuItem {
     var ingredients: String
     var imagePath: String
     var price: Int
+    var description: String
     
     init(menuItemJSON: JSON) {
         self.name = menuItemJSON["name"].string ?? ""
         self.ingredients = menuItemJSON["ingredients"].string ?? ""
         self.imagePath = menuItemJSON["imagepath"].string ?? ""
         self.price = menuItemJSON["price"].int ?? 0
+        self.description = menuItemJSON["description"].string ?? ""
     }
 }
