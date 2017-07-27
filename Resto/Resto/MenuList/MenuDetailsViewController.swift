@@ -10,6 +10,7 @@ import UIKit
 
 protocol MenuDetailsActionDelegate: class {
     func didChangeItemQuantity(menuItem: MenuItem, quantity: Int, atIndexpath indexPath: IndexPath)
+    func didSelectSuggestedItem(menuItem: MenuItem)
 }
 
 class MenuDetailsViewController: UIViewController {
@@ -110,6 +111,12 @@ extension MenuDetailsViewController: UICollectionViewDelegate, UICollectionViewD
         cell.itemNameLabel.text = suggestedItem.name
         cell.itemImageView.image = UIImage(named: suggestedItem.imagePath) ?? nil
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let menuItem = suggestedMenuItems[indexPath.row]
+        currentMenuItem = menuItem
+        menuDetailsActionDelegate?.didSelectSuggestedItem(menuItem: menuItem)
     }
 }
 

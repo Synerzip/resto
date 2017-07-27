@@ -56,12 +56,12 @@ class MenuTableViewController: UITableViewController {
             print("Invalid filename/path.")
         }
         tableView.reloadData()
-        showDefaultSelection()
+        selectItemAtIndex(index: 0)
     }
     
-    private func showDefaultSelection() {
+    private func selectItemAtIndex(index: Int) {
         // Show First item selected by Default
-        let firstIndexPath = IndexPath(row: 0, section: 0)
+        let firstIndexPath = IndexPath(row: index, section: 0)
         tableView.selectRow(at: firstIndexPath, animated: false, scrollPosition: .top)
         tableView(tableView, didSelectRowAt: firstIndexPath)
     }
@@ -79,6 +79,7 @@ class MenuTableViewController: UITableViewController {
         return Int(arc4random_uniform(UInt32(MAX)) + UInt32(MIN));
     }
 }
+
 extension MenuTableViewController {
     
     // MARK: - Table view data source
@@ -109,5 +110,17 @@ extension MenuTableViewController: MenuDetailsActionDelegate {
         menuItemList[indexPath.row].quantity = quantity
         tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.none)
         tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+    }
+    
+    func didSelectSuggestedItem(menuItem: MenuItem) {
+        let index = getIndexForSelectedItem(menuItem: menuItem)
+        selectItemAtIndex(index: index)
+    }
+    
+    private func getIndexForSelectedItem(menuItem: MenuItem) -> Int {
+        let index = menuItemList.index(where: { (item) -> Bool in
+            item.name == menuItem.name
+        })
+        return menuItemList.startIndex.distance(to: index!)
     }
 }
