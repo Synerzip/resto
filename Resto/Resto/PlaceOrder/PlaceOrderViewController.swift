@@ -9,34 +9,47 @@
 import UIKit
 
 class PlaceOrderViewController: UIViewController {
-
+    @IBOutlet weak var orderTableView: UITableView!
+    @IBOutlet weak var suggestionsCollectionView: UICollectionView!
+    @IBOutlet weak var totalAmountLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        hidePlaceOrderButton(status: true)
+        registerTableViewCell()
+        orderTableView.tableFooterView = UIView()
+        totalAmountLabel.text = calculateTotalAmount()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    private func registerTableViewCell() {
+        var nib = UINib(nibName: "OrderItemTableViewCell", bundle: nil)
+        orderTableView.register(nib, forCellReuseIdentifier: "OrderItemCell")
+        
+        nib = UINib(nibName: "SuggessionItemCollectionViewCell", bundle: nil)
+        suggestionsCollectionView.register(nib, forCellWithReuseIdentifier: "SuggestionItemCell")
+    }
+    
+    private func calculateTotalAmount() -> String {
+        var total = 0
+        for orderItem in AppManager.shared.currentOrder {
+            total = total + orderItem.totalAmount
+        }
+        return "₹ \(total)"
+    }
+    
+    private func hidePlaceOrderButton(status: Bool) {
+        if let homeVC = parent as? HomeViewController {
+            homeVC.placeOrderButton.isHidden = status
+        }
     }
     
     @IBAction func cancelOrderButtonAction(_ sender: Any) {
         if let homeVC = parent as? HomeViewController {
+            homeVC.placeOrderButton.isHidden = false
             homeVC.loadMenuList()
         }
+        AppManager.shared.currentOrder.removeAll()
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 extension PlaceOrderViewController: UITableViewDelegate, UITableViewDataSource {
@@ -45,11 +58,13 @@ extension PlaceOrderViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return AppManager.shared.currentOrder.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PlaceOrderTableViewCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "OrderItemCell", for: indexPath) as! OrderItemTableViewCell
+        let orderItem = AppManager.shared.currentOrder[indexPath.row]
+        cell.configureOrderItemCell(orderItem: orderItem)
         return cell
     }
 }
@@ -60,11 +75,14 @@ extension PlaceOrderViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return 3
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SuggestionsCollectionViewCell", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SuggestionItemCell", for: indexPath) as! SuggessionItemCollectionViewCell
+//        let suggestedItem = suggestedMenuItems[indexPath.row]
+//        cell.itemNameLabel.text = suggestedItem.name
+//        cell.itemImageView.image = UIImage(named: suggestedItem.imagePath) ?? nil
         return cell
     }
 }

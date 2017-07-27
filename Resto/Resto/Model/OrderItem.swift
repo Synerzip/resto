@@ -11,7 +11,11 @@ import Foundation
 class OrderItem {
     
     var menuItem: MenuItem
-    var quantity: Int
+    var quantity: Int {
+        didSet {
+            totalAmount = menuItem.price * quantity
+        }
+    }
     var totalAmount: Int
     
     init(menuItem: MenuItem, quantity: Int) {

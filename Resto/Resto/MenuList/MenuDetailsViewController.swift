@@ -30,19 +30,10 @@ class MenuDetailsViewController: UIViewController {
     
     var selectedItemsCount: Int = 0 {
         didSet {
-            var itemFound = false
             selectedItemCountLabel.text = "\(selectedItemsCount)"
             menuDetailsActionDelegate?.didChangeItemQuantity(menuItem: currentMenuItem!, quantity: selectedItemsCount, atIndexpath: selectedIndexPath as IndexPath)
-            for orderItem in AppManager.shared.currentOrder {
-                if orderItem.menuItem.name == currentMenuItem?.name {
-                    orderItem.quantity = selectedItemsCount
-                }
-                itemFound = true
-                break
-            }
-            if !itemFound {
-                let orderItem = OrderItem(menuItem: currentMenuItem!, quantity: selectedItemsCount)
-                AppManager.shared.currentOrder.append(orderItem)
+            if selectedItemsCount != 0 {
+                changeOrder()
             }
         }
     }
@@ -71,10 +62,27 @@ class MenuDetailsViewController: UIViewController {
     private func showMenuDetails() {
         if let menuItem = currentMenuItem {
             itemNameLabel.text = menuItem.name
+            itemImageView.layer.borderWidth = 1.0
+            itemImageView.layer.borderColor = UIColor.lightGray.cgColor
             itemImageView.image = UIImage(named:menuItem.imagePath) ?? nil
             itemDescriptionText.text = menuItem.description
             itemIngredientsLabel.text = menuItem.ingredients
             selectedItemsCount = menuItem.quantity
+        }
+    }
+    
+    private func changeOrder() {
+        var itemFound = false
+        for orderItem in AppManager.shared.currentOrder {
+            if orderItem.menuItem.name == currentMenuItem!.name {
+                orderItem.quantity = selectedItemsCount
+                itemFound = true
+                break
+            }
+        }
+        if !itemFound {
+            let orderItem = OrderItem(menuItem: currentMenuItem!, quantity: selectedItemsCount)
+            AppManager.shared.currentOrder.append(orderItem)
         }
     }
     

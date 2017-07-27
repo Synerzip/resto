@@ -17,14 +17,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="180" height="180"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7Ob-PZ-4LP">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="daltadka" translatesAutoresizingMaskIntoConstraints="NO" id="7Ob-PZ-4LP">
                         <rect key="frame" x="25" y="10" width="130" height="130"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="130" id="UmF-95-PAr"/>
                             <constraint firstAttribute="height" constant="130" id="hHI-0Q-r7c"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6ej-m7-dWm">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dal Tadka" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6ej-m7-dWm">
                         <rect key="frame" x="10" y="150" width="160" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
@@ -48,4 +48,7 @@
             <point key="canvasLocation" x="-27" y="3"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="daltadka" width="433" height="342"/>
+    </resources>
 </document>
