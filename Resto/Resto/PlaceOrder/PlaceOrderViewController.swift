@@ -12,18 +12,15 @@ class PlaceOrderViewController: UIViewController {
     @IBOutlet weak var orderTableView: UITableView!
     @IBOutlet weak var suggestionsCollectionView: UICollectionView!
     @IBOutlet weak var totalAmountLabel: UILabel!
+    var suggestedItems = [MenuItem]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        suggestedItems = AppManager.shared.getSuggestedItems()
         hidePlaceOrderButton(status: true)
         registerTableViewCell()
-        registerForObservers()
         orderTableView.tableFooterView = UIView()
         displayTotalAmount()
-    }
-    
-    private func registerForObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(orderItemChanged), name:NSNotification.Name(rawValue: "orderItemChanged"), object: nil)
     }
     
     private func registerTableViewCell() {
@@ -32,11 +29,6 @@ class PlaceOrderViewController: UIViewController {
         
         nib = UINib(nibName: "SuggessionItemCollectionViewCell", bundle: nil)
         suggestionsCollectionView.register(nib, forCellWithReuseIdentifier: "SuggestionItemCell")
-    }
-    
-    // Observer Selector - update Total amount when order is changed
-    @objc func orderItemChanged() {
-        displayTotalAmount()
     }
     
     private func displayTotalAmount() {
@@ -75,7 +67,19 @@ extension PlaceOrderViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "OrderItemCell", for: indexPath) as! OrderItemTableViewCell
         let orderItem = AppManager.shared.currentOrder[indexPath.row]
         cell.configureOrderItemCell(orderItem: orderItem, index: indexPath.row)
+        cell.orderItemActionDelegate = self
         return cell
+    }
+}
+
+extension PlaceOrderViewController: OrderItemActionDelegate {
+    func didItemQuantityBecomeZero(atIndex index: Int) {
+        AppManager.shared.currentOrder.remove(at: index)
+        orderTableView.reloadData()
+    }
+    
+    func didChangeItem(atIndex index: Int) {
+       displayTotalAmount()
     }
 }
 
@@ -85,14 +89,27 @@ extension PlaceOrderViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return suggestedItems.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SuggestionItemCell", for: indexPath) as! SuggessionItemCollectionViewCell
-//        let suggestedItem = suggestedMenuItems[indexPath.row]
-//        cell.itemNameLabel.text = suggestedItem.name
-//        cell.itemImageView.image = UIImage(named: suggestedItem.imagePath) ?? nil
+        let suggestedItem = suggestedItems[indexPath.row]
+        cell.itemNameLabel.text = suggestedItem.name
+        cell.itemImageView.image = UIImage(named: suggestedItem.imagePath) ?? nil
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        // Add Current menu item to current order
+        let menuItem = suggestedItems[indexPath.row]
+        let orderItem = OrderItem(menuItem: menuItem, quantity: 1)
+        AppManager.shared.currentOrder.append(orderItem)
+        orderTableView.reloadData()
+        
+        // Remove selected item from suggession
+        suggestedItems.remove(at: indexPath.row)
+        collectionView.reloadData()
     }
 }

@@ -55,6 +55,7 @@ class MenuTableViewController: UITableViewController {
         } else {
             print("Invalid filename/path.")
         }
+        AppManager.shared.menuItemList = self.menuItemList
         tableView.reloadData()
         selectItemAtIndex(index: 0)
     }
@@ -64,19 +65,6 @@ class MenuTableViewController: UITableViewController {
         let firstIndexPath = IndexPath(row: index, section: 0)
         tableView.selectRow(at: firstIndexPath, animated: false, scrollPosition: .top)
         tableView(tableView, didSelectRowAt: firstIndexPath)
-    }
-    
-    private func getSuggestedItems() -> [MenuItem] {
-        var suggestedItems = [MenuItem]()
-        for _ in 0..<3 {
-            let randomNo = randomNumber(MIN: 0, MAX: menuItemList.count - 1)
-            suggestedItems.append(menuItemList[randomNo])
-        }
-        return suggestedItems
-    }
-    
-    private func randomNumber(MIN: Int, MAX: Int)-> Int{
-        return Int(arc4random_uniform(UInt32(MAX)) + UInt32(MIN));
     }
 }
 
@@ -100,7 +88,7 @@ extension MenuTableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let menuItem = menuItemList[indexPath.row]
-        let suggestedItems = getSuggestedItems()
+        let suggestedItems = AppManager.shared.getSuggestedItems()
         menuListActionDelegate?.didSelectItem(menuItem: menuItem, suggestedItems: suggestedItems, atIndexpath: indexPath)
     }
 }

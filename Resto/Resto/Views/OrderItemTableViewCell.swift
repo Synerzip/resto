@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol OrderItemActionDelegate: class {
+    func didChangeItem(atIndex index: Int)
+    func didItemQuantityBecomeZero(atIndex index: Int)
+}
+
 class OrderItemTableViewCell: UITableViewCell {
     
     @IBOutlet weak var itemNameLabel: UILabel!
@@ -19,11 +24,12 @@ class OrderItemTableViewCell: UITableViewCell {
     @IBOutlet weak var qtyPlusButton: UIButton!
     @IBOutlet weak var qtyMinusButton: UIButton!
     @IBOutlet weak var qtySelectionLabel: UILabel!
+    
+    weak var orderItemActionDelegate: OrderItemActionDelegate?
     var currentIndex = 0
     var selectedItemsCount: Int = 0 {
         didSet {
             qtySelectionLabel.text = "\(selectedItemsCount)"
-            if selectedItemsCount != 0 {
                 let orderItem = AppManager.shared.currentOrder[currentIndex]
                 orderItem.quantity = selectedItemsCount
                 itemSubtitleLabel.text = "\(selectedItemsCount) items selected"
@@ -31,8 +37,7 @@ class OrderItemTableViewCell: UITableViewCell {
                 itemtotalAmountLabel.text = "₹ \(orderItem.totalAmount)"
                 qtySelectionLabel.text = "\(selectedItemsCount)"
                 // Notify Place Order Controller about change in order
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "orderItemChanged"), object: nil)
-            }
+                orderItemActionDelegate?.didChangeItem(atIndex: currentIndex)
         }
     }
     
@@ -57,6 +62,10 @@ class OrderItemTableViewCell: UITableViewCell {
     
     @IBAction func qtyMinusButtonAction(sender: UIButton) {
         selectedItemsCount = selectedItemsCount > 0 ?  selectedItemsCount - 1 : 0
+        // Remove item from list if its quantity becomes zero
+        if selectedItemsCount == 0 {
+            orderItemActionDelegate?.didItemQuantityBecomeZero(atIndex: currentIndex)
+        }
     }
     
     @IBAction func qtyPlusButtonAction(sender: UIButton) {
