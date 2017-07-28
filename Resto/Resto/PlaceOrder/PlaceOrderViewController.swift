@@ -17,8 +17,13 @@ class PlaceOrderViewController: UIViewController {
         super.viewDidLoad()
         hidePlaceOrderButton(status: true)
         registerTableViewCell()
+        registerForObservers()
         orderTableView.tableFooterView = UIView()
-        totalAmountLabel.text = calculateTotalAmount()
+        displayTotalAmount()
+    }
+    
+    private func registerForObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(orderItemChanged), name:NSNotification.Name(rawValue: "orderItemChanged"), object: nil)
     }
     
     private func registerTableViewCell() {
@@ -29,12 +34,17 @@ class PlaceOrderViewController: UIViewController {
         suggestionsCollectionView.register(nib, forCellWithReuseIdentifier: "SuggestionItemCell")
     }
     
-    private func calculateTotalAmount() -> String {
+    // Observer Selector - update Total amount when order is changed
+    @objc func orderItemChanged() {
+        displayTotalAmount()
+    }
+    
+    private func displayTotalAmount() {
         var total = 0
         for orderItem in AppManager.shared.currentOrder {
             total = total + orderItem.totalAmount
         }
-        return "₹ \(total)"
+        totalAmountLabel.text = "₹ \(total)"
     }
     
     private func hidePlaceOrderButton(status: Bool) {
@@ -64,7 +74,7 @@ extension PlaceOrderViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "OrderItemCell", for: indexPath) as! OrderItemTableViewCell
         let orderItem = AppManager.shared.currentOrder[indexPath.row]
-        cell.configureOrderItemCell(orderItem: orderItem)
+        cell.configureOrderItemCell(orderItem: orderItem, index: indexPath.row)
         return cell
     }
 }

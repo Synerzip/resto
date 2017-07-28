@@ -25,7 +25,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Paneer Tikka Masala" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ndt-HL-6sZ">
-                        <rect key="frame" x="80" y="11.5" width="156.5" height="21"/>
+                        <rect key="frame" x="80" y="11.5" width="202" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -49,7 +49,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="x 2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Tk-bo-6w1">
-                        <rect key="frame" x="562" y="23.5" width="50" height="24"/>
+                        <rect key="frame" x="572" y="23.5" width="50" height="24"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="50" id="ykv-y7-5ac"/>
                         </constraints>
@@ -58,7 +58,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="₹ 230" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Na5-vi-XUg">
-                        <rect key="frame" x="432" y="23.5" width="70" height="24"/>
+                        <rect key="frame" x="452" y="23.5" width="70" height="24"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="70" id="Bgi-D9-oqA"/>
                         </constraints>
@@ -66,17 +66,64 @@
                         <color key="textColor" red="0.25490196079999999" green="0.25490196079999999" blue="0.25490196079999999" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y6Q-Qn-Edw">
+                        <rect key="frame" x="302" y="23" width="25" height="25"/>
+                        <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="25" id="2oZ-EH-iLL"/>
+                            <constraint firstAttribute="height" constant="25" id="Z4c-gt-zgm"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                        <state key="normal" title="+">
+                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                        </state>
+                        <connections>
+                            <action selector="qtyPlusButtonActionWithSender:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="hOm-ib-4Xi"/>
+                        </connections>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2PT-gp-Cee">
+                        <rect key="frame" x="367" y="23" width="25" height="25"/>
+                        <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="25" id="89B-dh-r4Q"/>
+                            <constraint firstAttribute="width" constant="25" id="Quv-JC-GuC"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                        <state key="normal" title="-">
+                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
+                        </state>
+                        <connections>
+                            <action selector="qtyMinusButtonActionWithSender:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="5VU-aK-e0X"/>
+                        </connections>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aN6-iq-Jv3">
+                        <rect key="frame" x="332" y="22.5" width="30" height="26"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="30" id="chA-9P-cCd"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="19"/>
+                        <color key="textColor" red="0.098578559029999999" green="0.59838484219999999" blue="0.1450980392" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="zRz-Pw-NP6" firstAttribute="leading" secondItem="2Tk-bo-6w1" secondAttribute="trailing" constant="60" id="3sS-tq-Z2M"/>
+                    <constraint firstItem="y6Q-Qn-Edw" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="00l-dD-8hU"/>
+                    <constraint firstItem="2PT-gp-Cee" firstAttribute="top" secondItem="aN6-iq-Jv3" secondAttribute="top" id="0Ut-dg-9y9"/>
+                    <constraint firstItem="zRz-Pw-NP6" firstAttribute="leading" secondItem="2Tk-bo-6w1" secondAttribute="trailing" constant="50" id="3sS-tq-Z2M"/>
+                    <constraint firstItem="y6Q-Qn-Edw" firstAttribute="leading" secondItem="ndt-HL-6sZ" secondAttribute="trailing" constant="20" id="5oq-Tj-iFd"/>
                     <constraint firstItem="cFl-kL-md9" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="9sa-AP-6xv"/>
                     <constraint firstItem="9zs-IO-0Ji" firstAttribute="top" secondItem="ndt-HL-6sZ" secondAttribute="bottom" constant="5" id="Apk-P6-TG2"/>
-                    <constraint firstItem="2Tk-bo-6w1" firstAttribute="leading" secondItem="Na5-vi-XUg" secondAttribute="trailing" constant="60" id="C0X-ix-xx1"/>
+                    <constraint firstItem="2Tk-bo-6w1" firstAttribute="leading" secondItem="Na5-vi-XUg" secondAttribute="trailing" constant="50" id="C0X-ix-xx1"/>
+                    <constraint firstItem="Na5-vi-XUg" firstAttribute="leading" secondItem="2PT-gp-Cee" secondAttribute="trailing" constant="60" id="Eli-Qu-Zh6"/>
+                    <constraint firstItem="2PT-gp-Cee" firstAttribute="leading" secondItem="aN6-iq-Jv3" secondAttribute="trailing" constant="5" id="LeF-Vb-u5S"/>
                     <constraint firstItem="9zs-IO-0Ji" firstAttribute="leading" secondItem="ndt-HL-6sZ" secondAttribute="leading" id="M05-ri-PsH"/>
                     <constraint firstItem="ndt-HL-6sZ" firstAttribute="leading" secondItem="cFl-kL-md9" secondAttribute="trailing" constant="10" id="SGm-mQ-OPe"/>
                     <constraint firstItem="2Tk-bo-6w1" firstAttribute="bottom" secondItem="Na5-vi-XUg" secondAttribute="bottom" id="UTW-ii-60K"/>
+                    <constraint firstItem="2PT-gp-Cee" firstAttribute="top" secondItem="y6Q-Qn-Edw" secondAttribute="top" id="Wtf-os-S9c"/>
                     <constraint firstItem="2Tk-bo-6w1" firstAttribute="top" secondItem="Na5-vi-XUg" secondAttribute="top" id="acp-Zs-Vke"/>
+                    <constraint firstItem="aN6-iq-Jv3" firstAttribute="leading" secondItem="y6Q-Qn-Edw" secondAttribute="trailing" constant="5" id="cAy-rX-MGG"/>
                     <constraint firstItem="zRz-Pw-NP6" firstAttribute="top" secondItem="2Tk-bo-6w1" secondAttribute="top" id="j91-i9-vJh"/>
+                    <constraint firstItem="2PT-gp-Cee" firstAttribute="bottom" secondItem="aN6-iq-Jv3" secondAttribute="bottom" id="kSA-f6-ZsJ"/>
                     <constraint firstItem="zRz-Pw-NP6" firstAttribute="bottom" secondItem="2Tk-bo-6w1" secondAttribute="bottom" id="loP-Z9-vBR"/>
                     <constraint firstItem="zRz-Pw-NP6" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="qqU-16-3g1"/>
                     <constraint firstAttribute="trailing" secondItem="zRz-Pw-NP6" secondAttribute="trailing" constant="20" id="sfR-EX-xmY"/>
@@ -91,6 +138,9 @@
                 <outlet property="itemQuantityLabel" destination="2Tk-bo-6w1" id="nZC-bq-vja"/>
                 <outlet property="itemSubtitleLabel" destination="9zs-IO-0Ji" id="Sjg-du-UUZ"/>
                 <outlet property="itemtotalAmountLabel" destination="zRz-Pw-NP6" id="69I-d2-HPC"/>
+                <outlet property="qtyMinusButton" destination="2PT-gp-Cee" id="85k-gH-c6p"/>
+                <outlet property="qtyPlusButton" destination="y6Q-Qn-Edw" id="EWe-8c-eIR"/>
+                <outlet property="qtySelectionLabel" destination="aN6-iq-Jv3" id="eTP-D5-TbZ"/>
             </connections>
             <point key="canvasLocation" x="260" y="40.5"/>
         </tableViewCell>

@@ -16,13 +16,35 @@ class OrderItemTableViewCell: UITableViewCell {
     @IBOutlet weak var itemPriceLabel: UILabel!
     @IBOutlet weak var itemQuantityLabel: UILabel!
     @IBOutlet weak var itemtotalAmountLabel: UILabel!
+    @IBOutlet weak var qtyPlusButton: UIButton!
+    @IBOutlet weak var qtyMinusButton: UIButton!
+    @IBOutlet weak var qtySelectionLabel: UILabel!
+    var currentIndex = 0
+    var selectedItemsCount: Int = 0 {
+        didSet {
+            qtySelectionLabel.text = "\(selectedItemsCount)"
+            if selectedItemsCount != 0 {
+                let orderItem = AppManager.shared.currentOrder[currentIndex]
+                orderItem.quantity = selectedItemsCount
+                itemSubtitleLabel.text = "\(selectedItemsCount) items selected"
+                itemQuantityLabel.text = "x \(selectedItemsCount)"
+                itemtotalAmountLabel.text = "₹ \(orderItem.totalAmount)"
+                qtySelectionLabel.text = "\(selectedItemsCount)"
+                // Notify Place Order Controller about change in order
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "orderItemChanged"), object: nil)
+            }
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        qtyPlusButton.layer.cornerRadius = qtyPlusButton.frame.width/2
+        qtyMinusButton.layer.cornerRadius = qtyMinusButton.frame.width/2
     }
     
-    func configureOrderItemCell(orderItem: OrderItem) {
+    func configureOrderItemCell(orderItem: OrderItem, index: Int) {
+        currentIndex = index
+        selectedItemsCount = orderItem.quantity
         let menuItem = orderItem.menuItem
         itemNameLabel.text = menuItem.name
         itemSubtitleLabel.text = "\(orderItem.quantity) items selected"
@@ -30,5 +52,14 @@ class OrderItemTableViewCell: UITableViewCell {
         itemPriceLabel.text = "₹ \(menuItem.price)"
         itemQuantityLabel.text = "x \(orderItem.quantity)"
         itemtotalAmountLabel.text = "₹ \(orderItem.totalAmount)"
+        qtySelectionLabel.text = "\(orderItem.quantity)"
+    }
+    
+    @IBAction func qtyMinusButtonAction(sender: UIButton) {
+        selectedItemsCount = selectedItemsCount > 0 ?  selectedItemsCount - 1 : 0
+    }
+    
+    @IBAction func qtyPlusButtonAction(sender: UIButton) {
+        selectedItemsCount = selectedItemsCount < 10 ?  selectedItemsCount + 1 : 10
     }
 }
