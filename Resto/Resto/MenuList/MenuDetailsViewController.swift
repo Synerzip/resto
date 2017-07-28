@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol MenuDetailsActionDelegate: class {
+    func didChangeItemQuantity(menuItem: MenuItem, quantity: Int, atIndexpath indexPath: IndexPath)
+    func didSelectSuggestedItem(menuItem: MenuItem)
+}
+
 class MenuDetailsViewController: UIViewController {
 
     @IBOutlet weak var suggestionsCollectionView: UICollectionView!
@@ -17,9 +22,22 @@ class MenuDetailsViewController: UIViewController {
     @IBOutlet weak var itemIngredientsLabel: UILabel!
     @IBOutlet weak var qtyPlusButton: UIButton!
     @IBOutlet weak var qtyMinusButton: UIButton!
+    @IBOutlet weak var selectedItemCountLabel: UILabel!
     
     var currentMenuItem: MenuItem?
     var suggestedMenuItems = [MenuItem]()
+    weak var menuDetailsActionDelegate: MenuDetailsActionDelegate?
+    var selectedIndexPath: NSIndexPath!
+    
+    var selectedItemsCount: Int = 0 {
+        didSet {
+            selectedItemCountLabel.text = "\(selectedItemsCount)"
+            menuDetailsActionDelegate?.didChangeItemQuantity(menuItem: currentMenuItem!, quantity: selectedItemsCount, atIndexpath: selectedIndexPath as IndexPath)
+            if selectedItemsCount != 0 {
+                changeOrder()
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,10 +63,36 @@ class MenuDetailsViewController: UIViewController {
     private func showMenuDetails() {
         if let menuItem = currentMenuItem {
             itemNameLabel.text = menuItem.name
+            itemImageView.layer.borderWidth = 1.0
+            itemImageView.layer.borderColor = UIColor.lightGray.cgColor
             itemImageView.image = UIImage(named:menuItem.imagePath) ?? nil
             itemDescriptionText.text = menuItem.description
             itemIngredientsLabel.text = menuItem.ingredients
+            selectedItemsCount = menuItem.quantity
         }
+    }
+    
+    private func changeOrder() {
+        var itemFound = false
+        for orderItem in AppManager.shared.currentOrder {
+            if orderItem.menuItem.name == currentMenuItem!.name {
+                orderItem.quantity = selectedItemsCount
+                itemFound = true
+                break
+            }
+        }
+        if !itemFound {
+            let orderItem = OrderItem(menuItem: currentMenuItem!, quantity: selectedItemsCount)
+            AppManager.shared.currentOrder.append(orderItem)
+        }
+    }
+    
+    @IBAction func qtyPlusButtonAction(sender: UIButton) {
+        selectedItemsCount = selectedItemsCount < 10 ?  selectedItemsCount + 1 : 10
+    }
+    
+    @IBAction func qtyMinusButtonAction(sender: UIButton) {
+        selectedItemsCount = selectedItemsCount > 0 ?  selectedItemsCount - 1 : 0
     }
 }
 
@@ -68,12 +112,19 @@ extension MenuDetailsViewController: UICollectionViewDelegate, UICollectionViewD
         cell.itemImageView.image = UIImage(named: suggestedItem.imagePath) ?? nil
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let menuItem = suggestedMenuItems[indexPath.row]
+        currentMenuItem = menuItem
+        menuDetailsActionDelegate?.didSelectSuggestedItem(menuItem: menuItem)
+    }
 }
 
 extension MenuDetailsViewController: MenuListActionDelegate {
     func didSelectItem(menuItem: MenuItem, suggestedItems: [MenuItem], atIndexpath indexPath: IndexPath) {
         currentMenuItem = menuItem
         self.suggestedMenuItems = suggestedItems
+        selectedIndexPath = indexPath as NSIndexPath
         showMenuDetails()
         suggestionsCollectionView.reloadData()
     }

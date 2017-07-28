@@ -61,6 +61,7 @@
                 <outlet property="itemImageView" destination="gaw-G3-IP9" id="Led-H1-Lqc"/>
                 <outlet property="itemNameLabel" destination="mEv-Ov-dqz" id="qB2-IW-L5g"/>
                 <outlet property="itemPriceLabel" destination="gYw-gR-ZsM" id="ald-IB-vMx"/>
+                <outlet property="itemQuantityLabel" destination="MSC-Hn-W14" id="P0B-9O-ecj"/>
             </connections>
             <point key="canvasLocation" x="-299" y="10.5"/>
         </tableViewCell>

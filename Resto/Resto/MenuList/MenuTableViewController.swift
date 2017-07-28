@@ -20,29 +20,19 @@ class MenuTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        let detailVC = self.splitViewController!.viewControllers.last as! MenuDetailsViewController
+        detailVC.menuDetailsActionDelegate = self
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
-        createRightBarItem()
         registerTableViewCell()
         getMenuList()
-    }
-    
-    private func createRightBarItem() {
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        let rightBarButtonItem = UIBarButtonItem(title: "Place Order", style: .done, target: self, action: #selector(MenuTableViewController.placeOrderButtonAction))
-        self.navigationItem.rightBarButtonItem = rightBarButtonItem
     }
     
     private func registerTableViewCell() {
         let nib = UINib(nibName: "MenuItemTableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "MenuItemCell")
-    }
-    
-    @objc func placeOrderButtonAction() {
-        if let homeVC = splitViewController?.parent as? HomeViewController {
-            homeVC.loadPlaceOrder()
-        }
     }
     
     func getMenuList() {
@@ -65,26 +55,19 @@ class MenuTableViewController: UITableViewController {
         } else {
             print("Invalid filename/path.")
         }
+        AppManager.shared.menuItemList = self.menuItemList
         tableView.reloadData()
-        
-        let firstIndexPath = IndexPath(row: 0, section: 0)
+        selectItemAtIndex(index: 0)
+    }
+    
+    private func selectItemAtIndex(index: Int) {
+        // Show First item selected by Default
+        let firstIndexPath = IndexPath(row: index, section: 0)
         tableView.selectRow(at: firstIndexPath, animated: false, scrollPosition: .top)
         tableView(tableView, didSelectRowAt: firstIndexPath)
     }
-    
-    private func getSuggestedItems() -> [MenuItem] {
-        var suggestedItems = [MenuItem]()
-        for _ in 0..<3 {
-            let randomNo = randomNumber(MIN: 0, MAX: menuItemList.count - 1)
-            suggestedItems.append(menuItemList[randomNo])
-        }
-        return suggestedItems
-    }
-    
-    private func randomNumber(MIN: Int, MAX: Int)-> Int{
-        return Int(arc4random_uniform(UInt32(MAX)) + UInt32(MIN));
-    }
 }
+
 extension MenuTableViewController {
     
     // MARK: - Table view data source
@@ -105,7 +88,27 @@ extension MenuTableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let menuItem = menuItemList[indexPath.row]
-        let suggestedItems = getSuggestedItems()
+        let suggestedItems = AppManager.shared.getSuggestedItems()
         menuListActionDelegate?.didSelectItem(menuItem: menuItem, suggestedItems: suggestedItems, atIndexpath: indexPath)
+    }
+}
+
+extension MenuTableViewController: MenuDetailsActionDelegate {
+    func didChangeItemQuantity(menuItem: MenuItem, quantity: Int, atIndexpath indexPath: IndexPath) {
+        menuItemList[indexPath.row].quantity = quantity
+        tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.none)
+        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+    }
+    
+    func didSelectSuggestedItem(menuItem: MenuItem) {
+        let index = getIndexForSelectedItem(menuItem: menuItem)
+        selectItemAtIndex(index: index)
+    }
+    
+    private func getIndexForSelectedItem(menuItem: MenuItem) -> Int {
+        let index = menuItemList.index(where: { (item) -> Bool in
+            item.name == menuItem.name
+        })
+        return menuItemList.startIndex.distance(to: index!)
     }
 }

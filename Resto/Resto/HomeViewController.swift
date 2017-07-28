@@ -11,6 +11,7 @@ import UIKit
 class HomeViewController: UIViewController {
 
     @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var placeOrderButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +39,10 @@ class HomeViewController: UIViewController {
         if let placeOrderVC = self.storyboard?.instantiateViewController(withIdentifier: "placeOrderVC") as? PlaceOrderViewController {
             self.addControllerToContainerView(placeOrderVC)
         }
+    }
+    
+    @IBAction func placeOrderButtonAction(sender: UIButton) {
+        loadPlaceOrder()
     }
     
     /**

@@ -15,6 +15,7 @@ class MenuItem {
     var imagePath: String
     var price: Int
     var description: String
+    var quantity = 0
     
     init(menuItemJSON: JSON) {
         self.name = menuItemJSON["name"].string ?? ""
