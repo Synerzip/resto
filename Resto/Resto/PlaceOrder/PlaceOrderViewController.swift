@@ -16,11 +16,16 @@ class PlaceOrderViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        suggestedItems = AppManager.shared.getSuggestedItems()
         hidePlaceOrderButton(status: true)
         registerTableViewCell()
         orderTableView.tableFooterView = UIView()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         displayTotalAmount()
+        suggestedItems = getSuggestedItems()
+        suggestionsCollectionView.reloadData()
     }
     
     private func registerTableViewCell() {
@@ -51,6 +56,24 @@ class PlaceOrderViewController: UIViewController {
             homeVC.loadMenuList()
         }
         AppManager.shared.currentOrder.removeAll()
+    }
+    
+    func getSuggestedItems() -> [MenuItem] {
+        let menuItems = AppManager.shared.menuItemList
+        var suggestedItems = [MenuItem]()
+        if menuItems.count > 0 {
+            while suggestedItems.count < 3 {
+                let randomNo = Utilities.randomNumber(MIN: 0, MAX: menuItems.count - 1)
+                let item = menuItems[randomNo]
+                //Do not repeat the sugession item and Existing Prdered Items
+                let isItemPresentInSuggession = suggestedItems.contains(where: { menuItem in menuItem.name == item.name })
+                let isItemPresentInOrder = AppManager.shared.currentOrder.contains(where: { orderItem in orderItem.menuItem.name == item.name })
+                if !isItemPresentInSuggession && !isItemPresentInOrder {
+                    suggestedItems.append(item)
+                }
+            }
+        }
+        return suggestedItems
     }
 }
 
