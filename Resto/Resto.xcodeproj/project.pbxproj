@@ -19,6 +19,7 @@
 		7E9FEB2F1F2755DA0086897B /* MenuItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9FEB2D1F2755DA0086897B /* MenuItemTableViewCell.swift */; };
 		7E9FEB301F2755DA0086897B /* MenuItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E9FEB2E1F2755DA0086897B /* MenuItemTableViewCell.xib */; };
 		7EF2424E1F2B6F1800A76398 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF2424D1F2B6F1800A76398 /* Utilities.swift */; };
+		CA82209C1F28B140007F15E9 /* overlayScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA82209B1F28B140007F15E9 /* overlayScene.swift */; };
 		CAAFCEC61F22074F00FA8FB0 /* Models.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = CACCAF1E1F21CFB100D283C3 /* Models.scnassets */; };
 		CAD3C6C71F1F394C00B6F5D0 /* MenuPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD3C6C61F1F394C00B6F5D0 /* MenuPreviewViewController.swift */; };
 		CAE186B61F1DF5E00002B182 /* PlaceOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE186B51F1DF5E00002B182 /* PlaceOrderViewController.swift */; };
@@ -47,6 +48,7 @@
 		7E9FEB2D1F2755DA0086897B /* MenuItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemTableViewCell.swift; sourceTree = "<group>"; };
 		7E9FEB2E1F2755DA0086897B /* MenuItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MenuItemTableViewCell.xib; sourceTree = "<group>"; };
 		7EF2424D1F2B6F1800A76398 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		CA82209B1F28B140007F15E9 /* overlayScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = overlayScene.swift; sourceTree = "<group>"; };
 		CACCAF1E1F21CFB100D283C3 /* Models.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = Models.scnassets; sourceTree = "<group>"; };
 		CAD3C6C61F1F394C00B6F5D0 /* MenuPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuPreviewViewController.swift; sourceTree = "<group>"; };
 		CAE186B51F1DF5E00002B182 /* PlaceOrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceOrderViewController.swift; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 				CAF04F8D1F1CB79700A7E93A /* MenuTableViewController.swift */,
 				CAF04F8F1F1CB7B100A7E93A /* MenuDetailsViewController.swift */,
 				CAD3C6C61F1F394C00B6F5D0 /* MenuPreviewViewController.swift */,
+				CA82209B1F28B140007F15E9 /* overlayScene.swift */,
 			);
 			path = MenuList;
 			sourceTree = "<group>";
@@ -303,6 +306,7 @@
 				7E34B9321F28A8E500F5E126 /* OrderItemTableViewCell.swift in Sources */,
 				7EF2424E1F2B6F1800A76398 /* Utilities.swift in Sources */,
 				CAF04F901F1CB7B100A7E93A /* MenuDetailsViewController.swift in Sources */,
+				CA82209C1F28B140007F15E9 /* overlayScene.swift in Sources */,
 				7E34B9281F28542200F5E126 /* SuggessionItemCollectionViewCell.swift in Sources */,
 				7E34B92D1F287AAF00F5E126 /* AppManager.swift in Sources */,
 				CAE186B61F1DF5E00002B182 /* PlaceOrderViewController.swift in Sources */,

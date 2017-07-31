@@ -16,6 +16,7 @@ class MenuPreviewViewController: UIViewController {
     
     var session = ARSession()
     var sessionConfig: ARSessionConfiguration = ARWorldTrackingSessionConfiguration()
+    var spriteScene: SKScene?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +48,8 @@ class MenuPreviewViewController: UIViewController {
         sceneView.contentScaleFactor = 1.3
         sceneView.showsStatistics = true
         sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWorldOrigin]
+        self.spriteScene = overlayScene(size: self.view.bounds.size)
+        self.sceneView.overlaySKScene = spriteScene
         
         if let camera = sceneView.pointOfView?.camera {
             camera.wantsHDR = true
@@ -72,6 +75,14 @@ class MenuPreviewViewController: UIViewController {
             }
         }
         sceneView.scene.lightingEnvironment.intensity = intensity
+    }
+    
+    func addItem(anchor: ARPlaneAnchor) -> SCNNode {
+        let plane = SCNPlane(width: 50, height: 50)
+        plane.firstMaterial?.diffuse.contents = UIImage(named: "PotatoMashed")
+        let planeNode = SCNNode(geometry: plane)
+        planeNode.position = SCNVector3Make(anchor.center.x, 100, anchor.center.z)
+        return planeNode
     }
     
     func loadModel(anchor: ARPlaneAnchor) -> SCNNode? {
