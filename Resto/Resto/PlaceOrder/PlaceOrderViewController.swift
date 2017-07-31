@@ -118,21 +118,26 @@ extension PlaceOrderViewController: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SuggestionItemCell", for: indexPath) as! SuggessionItemCollectionViewCell
         let suggestedItem = suggestedItems[indexPath.row]
-        cell.itemNameLabel.text = suggestedItem.name
-        cell.itemImageView.image = UIImage(named: suggestedItem.imagePath) ?? nil
+        cell.configureSuggestedItemCell(suggestedItem: suggestedItem)
+        cell.addButton.isHidden = false
+        cell.addButton.tag = indexPath.row
+        cell.addButton.addTarget(self, action: #selector(collectionCellAddButtonAction(sender:)), for: .touchUpInside)
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+    @objc func collectionCellAddButtonAction(sender: UIButton) {
         // Add Current menu item to current order
-        let menuItem = suggestedItems[indexPath.row]
+        let menuItem = suggestedItems[sender.tag]
         let orderItem = OrderItem(menuItem: menuItem, quantity: 1)
         AppManager.shared.currentOrder.append(orderItem)
         orderTableView.reloadData()
         
         // Remove selected item from suggession
-        suggestedItems.remove(at: indexPath.row)
-        collectionView.reloadData()
+        suggestedItems.remove(at: sender.tag)
+        suggestionsCollectionView.reloadData()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
     }
 }

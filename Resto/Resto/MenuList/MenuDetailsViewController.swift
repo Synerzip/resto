@@ -108,8 +108,8 @@ extension MenuDetailsViewController: UICollectionViewDelegate, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SuggestionItemCell", for: indexPath) as! SuggessionItemCollectionViewCell
         let suggestedItem = suggestedMenuItems[indexPath.row]
-        cell.itemNameLabel.text = suggestedItem.name
-        cell.itemImageView.image = UIImage(named: suggestedItem.imagePath) ?? nil
+        cell.configureSuggestedItemCell(suggestedItem: suggestedItem)
+        cell.addButton.isHidden = true
         return cell
     }
     
