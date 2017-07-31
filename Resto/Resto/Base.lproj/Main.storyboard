@@ -62,7 +62,7 @@
                                             <color key="titleColor" red="0.2274509804" green="0.0" blue="0.35686274509999999" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <segue destination="qHR-2n-dyp" kind="presentation" id="r1C-YO-c4P"/>
+                                            <action selector="showPreviewButtonActionWithSender:" destination="hdQ-ZX-epr" eventType="touchUpInside" id="EVk-fo-MZ0"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select Quantity" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Tb-2c-jwn">
@@ -268,7 +268,7 @@
         <!--Menu Preview View Controller-->
         <scene sceneID="aXw-xF-bGy">
             <objects>
-                <viewController id="qHR-2n-dyp" customClass="MenuPreviewViewController" customModule="Resto" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="menuPreview" id="qHR-2n-dyp" customClass="MenuPreviewViewController" customModule="Resto" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="AcG-Fa-xSE"/>
                         <viewControllerLayoutGuide type="bottom" id="TRA-0m-NLO"/>
@@ -281,12 +281,13 @@
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                             </arscnView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nuJ-jP-wqr">
-                                <rect key="frame" x="20" y="20" width="60" height="36"/>
+                                <rect key="frame" x="20" y="20" width="60" height="60"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="7fE-uf-SoH"/>
                                     <constraint firstAttribute="width" constant="60" id="Wat-DH-H7R"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="BACK">
+                                <state key="normal" backgroundImage="close_icon">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -437,6 +438,9 @@
                                         <state key="normal" title="CONFIRM">
                                             <color key="titleColor" red="0.098578559029999999" green="0.59838484219999999" blue="0.1450980392" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="confirmOrderButtonAction:" destination="cLt-yP-dG3" eventType="touchUpInside" id="1Cm-2Z-bX4"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JAD-0G-5vn">
                                         <rect key="frame" x="20" y="8" width="72" height="34"/>
@@ -584,6 +588,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="close_icon" width="85" height="85"/>
         <image name="preview_icon" width="30" height="23"/>
         <image name="resto_title" width="92" height="22"/>
         <image name="vadapav" width="273" height="254"/>

@@ -19,13 +19,14 @@ class PlaceOrderViewController: UIViewController {
         hidePlaceOrderButton(status: true)
         registerTableViewCell()
         orderTableView.tableFooterView = UIView()
+        
+        suggestedItems = getSuggestedItems()
+        suggestionsCollectionView.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         displayTotalAmount()
-        suggestedItems = getSuggestedItems()
-        suggestionsCollectionView.reloadData()
     }
     
     private func registerTableViewCell() {
@@ -51,6 +52,19 @@ class PlaceOrderViewController: UIViewController {
     }
     
     @IBAction func cancelOrderButtonAction(_ sender: Any) {
+        dismissController()
+    }
+    
+    @IBAction func confirmOrderButtonAction(_ sender: Any) {
+        let alertController = UIAlertController(title: "Resto", message: "Your Order has been Confirmed and It will be served Soon. Thanks!", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+            self.dismissController()
+        }
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    private func dismissController() {
         if let homeVC = parent as? HomeViewController {
             homeVC.placeOrderButton.isHidden = false
             homeVC.loadMenuList()
@@ -138,6 +152,8 @@ extension PlaceOrderViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        if let menuPreviewVC = self.storyboard?.instantiateViewController(withIdentifier: "menuPreview") as? MenuPreviewViewController {
+            present(menuPreviewVC, animated: true, completion: nil)
+        }
     }
 }

@@ -94,6 +94,12 @@ class MenuDetailsViewController: UIViewController {
     @IBAction func qtyMinusButtonAction(sender: UIButton) {
         selectedItemsCount = selectedItemsCount > 0 ?  selectedItemsCount - 1 : 0
     }
+    
+    @IBAction func showPreviewButtonAction(sender: UIButton) {
+        if let menuPreviewVC = self.storyboard?.instantiateViewController(withIdentifier: "menuPreview") as? MenuPreviewViewController {
+            present(menuPreviewVC, animated: true, completion: nil)
+        }
+    }
 }
 
 extension MenuDetailsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
