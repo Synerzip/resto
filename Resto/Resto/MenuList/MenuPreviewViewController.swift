@@ -14,7 +14,7 @@ class MenuPreviewViewController: UIViewController {
 
     @IBOutlet weak var sceneView: ARSCNView!
     
-    let session = ARSession()
+    var session = ARSession()
     var sessionConfig: ARSessionConfiguration = ARWorldTrackingSessionConfiguration()
     
     override func viewDidLoad() {
@@ -29,13 +29,9 @@ class MenuPreviewViewController: UIViewController {
         
         restartPlaneDetection()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     @IBAction func backButtonAction(_ sender: Any) {
+        session.pause()
         dismiss(animated: true, completion: nil)
     }
     

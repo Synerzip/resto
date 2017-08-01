@@ -15,14 +15,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
         loadMenuList()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -36,8 +29,13 @@ class HomeViewController: UIViewController {
     }
     
     func loadPlaceOrder() {
-        if let placeOrderVC = self.storyboard?.instantiateViewController(withIdentifier: "placeOrderVC") as? PlaceOrderViewController {
+        if let placeOrderVC = self.storyboard?.instantiateViewController(withIdentifier: "placeOrderVC") as? PlaceOrderViewController, AppManager.shared.currentOrder.count > 0 {
             self.addControllerToContainerView(placeOrderVC)
+        } else {
+            let alertController = UIAlertController(title: "Resto", message: "Please select at least one item before placing the order", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler:nil)
+            alertController.addAction(okAction)
+            present(alertController, animated: true, completion: nil)
         }
     }
     

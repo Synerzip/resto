@@ -24,8 +24,6 @@ class MenuTableViewController: UITableViewController {
         let detailVC = self.splitViewController!.viewControllers.last as! MenuDetailsViewController
         detailVC.menuDetailsActionDelegate = self
         
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
         registerTableViewCell()
         getMenuList()
     }
@@ -66,6 +64,22 @@ class MenuTableViewController: UITableViewController {
         tableView.selectRow(at: firstIndexPath, animated: false, scrollPosition: .top)
         tableView(tableView, didSelectRowAt: firstIndexPath)
     }
+    
+    func getSuggestedItems(forItem: MenuItem) -> [MenuItem] {
+        var suggestedItems = [MenuItem]()
+        if menuItemList.count > 0 {
+            while suggestedItems.count < 3 {
+                let randomNo = Utilities.randomNumber(MIN: 0, MAX: menuItemList.count - 1)
+                let item = menuItemList[randomNo]
+                //Do not allow same item for sugession and aslo do not repeat the sugession item
+                let isItemPresent = suggestedItems.contains(where: { menuItem in menuItem.name == item.name })
+                if item.name != forItem.name && !isItemPresent {
+                   suggestedItems.append(item)
+                }
+            }
+        }
+        return suggestedItems
+    }
 }
 
 extension MenuTableViewController {
@@ -88,7 +102,7 @@ extension MenuTableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let menuItem = menuItemList[indexPath.row]
-        let suggestedItems = AppManager.shared.getSuggestedItems()
+        let suggestedItems = getSuggestedItems(forItem: menuItem)
         menuListActionDelegate?.didSelectItem(menuItem: menuItem, suggestedItems: suggestedItems, atIndexpath: indexPath)
     }
 }

@@ -18,30 +18,46 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="daltadka" translatesAutoresizingMaskIntoConstraints="NO" id="7Ob-PZ-4LP">
-                        <rect key="frame" x="25" y="10" width="130" height="130"/>
+                        <rect key="frame" x="25" y="20" width="130" height="130"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="130" id="UmF-95-PAr"/>
                             <constraint firstAttribute="height" constant="130" id="hHI-0Q-r7c"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dal Tadka" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6ej-m7-dWm">
-                        <rect key="frame" x="10" y="150" width="160" height="21"/>
+                        <rect key="frame" x="10" y="160" width="160" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zOf-67-KDf">
+                        <rect key="frame" x="135" y="0.0" width="40" height="40"/>
+                        <color key="backgroundColor" red="0.2274509804" green="0.0" blue="0.35686274509999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="PMh-44-Lsc"/>
+                            <constraint firstAttribute="height" constant="40" id="hja-tj-j0W"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
+                        <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="5"/>
+                        <state key="normal" title="+">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                    </button>
                 </subviews>
             </view>
             <constraints>
+                <constraint firstItem="7Ob-PZ-4LP" firstAttribute="trailing" secondItem="zOf-67-KDf" secondAttribute="trailing" constant="-20" id="Jct-U8-N90"/>
+                <constraint firstItem="zOf-67-KDf" firstAttribute="top" secondItem="7Ob-PZ-4LP" secondAttribute="top" constant="-20" id="ecP-ZY-IJE"/>
                 <constraint firstItem="6ej-m7-dWm" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="hu7-Xa-Ed8"/>
                 <constraint firstItem="7Ob-PZ-4LP" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="mn7-f9-Xtn"/>
                 <constraint firstItem="6ej-m7-dWm" firstAttribute="top" secondItem="7Ob-PZ-4LP" secondAttribute="bottom" constant="10" id="ndR-xI-gnK"/>
                 <constraint firstAttribute="trailing" secondItem="6ej-m7-dWm" secondAttribute="trailing" constant="10" id="prX-DX-mwc"/>
-                <constraint firstItem="7Ob-PZ-4LP" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="rx8-kS-8d5"/>
+                <constraint firstItem="7Ob-PZ-4LP" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="20" id="rx8-kS-8d5"/>
                 <constraint firstItem="7Ob-PZ-4LP" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="uWc-EE-vOm"/>
             </constraints>
             <size key="customSize" width="195" height="148"/>
             <connections>
+                <outlet property="addButton" destination="zOf-67-KDf" id="cUL-FY-z8x"/>
                 <outlet property="itemImageView" destination="7Ob-PZ-4LP" id="Rcl-XJ-mXF"/>
                 <outlet property="itemNameLabel" destination="6ej-m7-dWm" id="3o3-ih-tcl"/>
             </connections>

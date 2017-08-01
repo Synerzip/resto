@@ -94,6 +94,12 @@ class MenuDetailsViewController: UIViewController {
     @IBAction func qtyMinusButtonAction(sender: UIButton) {
         selectedItemsCount = selectedItemsCount > 0 ?  selectedItemsCount - 1 : 0
     }
+    
+    @IBAction func showPreviewButtonAction(sender: UIButton) {
+        if let menuPreviewVC = self.storyboard?.instantiateViewController(withIdentifier: "menuPreview") as? MenuPreviewViewController {
+            present(menuPreviewVC, animated: true, completion: nil)
+        }
+    }
 }
 
 extension MenuDetailsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -108,8 +114,8 @@ extension MenuDetailsViewController: UICollectionViewDelegate, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SuggestionItemCell", for: indexPath) as! SuggessionItemCollectionViewCell
         let suggestedItem = suggestedMenuItems[indexPath.row]
-        cell.itemNameLabel.text = suggestedItem.name
-        cell.itemImageView.image = UIImage(named: suggestedItem.imagePath) ?? nil
+        cell.configureSuggestedItemCell(suggestedItem: suggestedItem)
+        cell.addButton.isHidden = true
         return cell
     }
     
