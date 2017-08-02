@@ -16,7 +16,6 @@ class MenuPreviewViewController: UIViewController {
     
     var session = ARSession()
     var sessionConfig: ARSessionConfiguration = ARWorldTrackingSessionConfiguration()
-    var spriteScene: SKScene?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,8 +47,6 @@ class MenuPreviewViewController: UIViewController {
         sceneView.contentScaleFactor = 1.3
         sceneView.showsStatistics = true
         sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWorldOrigin]
-        self.spriteScene = overlayScene(size: self.view.bounds.size)
-        self.sceneView.overlaySKScene = spriteScene
         
         if let camera = sceneView.pointOfView?.camera {
             camera.wantsHDR = true
