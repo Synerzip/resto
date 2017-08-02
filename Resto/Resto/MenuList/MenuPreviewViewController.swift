@@ -22,6 +22,7 @@ class MenuPreviewViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         setupScene()
+        enableEnvironmentMapWithIntensity(30)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -41,7 +42,7 @@ class MenuPreviewViewController: UIViewController {
         sceneView.session = session
         sceneView.antialiasingMode = .multisampling4X
         sceneView.automaticallyUpdatesLighting = false
-        
+        sceneView.autoenablesDefaultLighting = true
         sceneView.preferredFramesPerSecond = 60
         sceneView.contentScaleFactor = 1.3
         sceneView.showsStatistics = true
@@ -64,27 +65,37 @@ class MenuPreviewViewController: UIViewController {
         }
     }
     
-    func createPlaneNode(anchor: ARPlaneAnchor) -> SCNNode {
-        // Create a SceneKit plane to visualize the node using its position and extent.
-        // Create the geometry and its materials
-        let plane = SCNPlane(width: CGFloat(anchor.extent.x), height: CGFloat(anchor.extent.z))
-        
-        let spaceImage = UIImage(named: "space")
-        let plainMaterial = SCNMaterial()
-        plainMaterial.diffuse.contents = spaceImage
-        plainMaterial.isDoubleSided = true
-        
-        plane.materials = [plainMaterial]
-        
-        // Create a node with the plane geometry we created
+    func enableEnvironmentMapWithIntensity(_ intensity: CGFloat) {
+        if sceneView.scene.lightingEnvironment.contents == nil {
+            if let environmentMap = UIImage(named: "Models.scnassets/sharedImages/environment_blur.exr") {
+                sceneView.scene.lightingEnvironment.contents = environmentMap
+            }
+        }
+        sceneView.scene.lightingEnvironment.intensity = intensity
+    }
+    
+    func addItem(anchor: ARPlaneAnchor) -> SCNNode {
+        let plane = SCNPlane(width: 50, height: 50)
+        plane.firstMaterial?.diffuse.contents = UIImage(named: "PotatoMashed")
         let planeNode = SCNNode(geometry: plane)
-        planeNode.position = SCNVector3Make(anchor.center.x, 0, anchor.center.z)
-        
-        // SCNPlanes are vertically oriented in their local coordinate space.
-        // Rotate it to match the horizontal orientation of the ARPlaneAnchor.
-        planeNode.transform = SCNMatrix4MakeRotation(-Float.pi / 2, 1, 0, 0)
-        
+        planeNode.position = SCNVector3Make(anchor.center.x, 100, anchor.center.z)
         return planeNode
+    }
+    
+    func loadModel(anchor: ARPlaneAnchor) -> SCNNode? {
+        guard let virtualObjectScene = SCNScene(named: "cup.scn", inDirectory: "Models.scnassets/cup") else {
+            return nil
+        }
+        
+        let wrapperNode = SCNNode()
+        
+        for child in virtualObjectScene.rootNode.childNodes {
+            child.geometry?.firstMaterial?.lightingModel = .physicallyBased
+            child.movabilityHint = .movable
+            wrapperNode.addChildNode(child)
+        }
+        wrapperNode.position = SCNVector3Make(anchor.center.x, 0, anchor.center.z)
+        return wrapperNode
     }
 }
 
@@ -93,20 +104,8 @@ extension MenuPreviewViewController: ARSCNViewDelegate {
         print("Node Added...")
         guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
         
-        let planeNode = createPlaneNode(anchor: planeAnchor)
-        // ARKit owns the node corresponding to the anchor, so make the plane a child node.
-        node.addChildNode(planeNode)
-    }
-    
-    func renderer(_ renderer: SCNSceneRenderer, didRemove node: SCNNode, for anchor: ARAnchor) {
-        print("Node Removed...")
-        guard anchor is ARPlaneAnchor else { return }
-        
-        // Remove existing plane nodes
-        node.enumerateChildNodes {
-            (childNode, _) in
-            childNode.removeFromParentNode()
-        }
+        let cupNode = loadModel(anchor: planeAnchor)
+        node.addChildNode(cupNode!)
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
@@ -118,8 +117,20 @@ extension MenuPreviewViewController: ARSCNViewDelegate {
             (childNode, _) in
             childNode.removeFromParentNode()
         }
-        let planeNode = createPlaneNode(anchor: planeAnchor)
-        node.addChildNode(planeNode)
+        
+        let cupNode = loadModel(anchor: planeAnchor)
+        node.addChildNode(cupNode!)
+    }
+    
+    func renderer(_ renderer: SCNSceneRenderer, didRemove node: SCNNode, for anchor: ARAnchor) {
+        print("Node Removed...")
+        guard anchor is ARPlaneAnchor else { return }
+        
+        // Remove existing plane nodes
+        node.enumerateChildNodes {
+            (childNode, _) in
+            childNode.removeFromParentNode()
+        }
     }
 }
 
