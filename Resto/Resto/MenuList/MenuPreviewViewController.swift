@@ -15,7 +15,7 @@ class MenuPreviewViewController: UIViewController {
     @IBOutlet weak var sceneView: ARSCNView!
     
     var session = ARSession()
-    var sessionConfig: ARSessionConfiguration = ARWorldTrackingSessionConfiguration()
+    var config: ARConfiguration = ARWorldTrackingConfiguration()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,7 +46,7 @@ class MenuPreviewViewController: UIViewController {
         sceneView.preferredFramesPerSecond = 60
         sceneView.contentScaleFactor = 1.3
         sceneView.showsStatistics = true
-        sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWorldOrigin]
+//        sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWorldOrigin]
         
         if let camera = sceneView.pointOfView?.camera {
             camera.wantsHDR = true
@@ -59,7 +59,7 @@ class MenuPreviewViewController: UIViewController {
     func restartPlaneDetection() {
         
         // configure session
-        if let worldSessionConfig = sessionConfig as? ARWorldTrackingSessionConfiguration {
+        if let worldSessionConfig = config as? ARWorldTrackingConfiguration {
             worldSessionConfig.planeDetection = .horizontal
             session.run(worldSessionConfig, options: [.resetTracking, .removeExistingAnchors])
         }
@@ -74,27 +74,62 @@ class MenuPreviewViewController: UIViewController {
         sceneView.scene.lightingEnvironment.intensity = intensity
     }
     
-    func addItem(anchor: ARPlaneAnchor) -> SCNNode {
-        let plane = SCNPlane(width: 50, height: 50)
-        plane.firstMaterial?.diffuse.contents = UIImage(named: "PotatoMashed")
+    func addItemWith(name: String) -> SCNNode {
+        let wrapper = SCNNode()
+        
+        //add image of an ingredient
+        let plane = SCNPlane(width: 0.05, height: 0.05)
+        plane.firstMaterial?.diffuse.contents = UIImage(named: name)
         let planeNode = SCNNode(geometry: plane)
-        planeNode.position = SCNVector3Make(anchor.center.x, 100, anchor.center.z)
-        return planeNode
+        planeNode.constraints = [SCNBillboardConstraint()]
+        plane.firstMaterial?.isDoubleSided = true
+        wrapper.addChildNode(planeNode)
+        
+        //add name of an ingredient
+        let text = SCNText(string: name, extrusionDepth: 0.5)
+        text.firstMaterial?.diffuse.contents = UIColor.yellow
+        text.firstMaterial?.isDoubleSided = true
+        let nameNode = SCNNode(geometry: text)
+        nameNode.scale = SCNVector3(0.001,0.001,0.001)
+        nameNode.position = SCNVector3Zero
+        wrapper.addChildNode(nameNode)
+        let itemBoundingBox = planeNode.boundingBox
+        let nameBoundingBox = nameNode.boundingBox
+        let xPos = (planeNode.position.x - (nameBoundingBox.max.x - nameBoundingBox.min.x)/2.0) / 1000
+        let yPos = itemBoundingBox.min.y - (nameBoundingBox.max.y - nameBoundingBox.min.y)/1000 - 0.005
+        nameNode.position = SCNVector3(xPos, yPos, planeNode.position.z)
+
+        return wrapper
     }
     
     func loadModel(anchor: ARPlaneAnchor) -> SCNNode? {
         guard let virtualObjectScene = SCNScene(named: "cup.scn", inDirectory: "Models.scnassets/cup") else {
             return nil
         }
-        
         let wrapperNode = SCNNode()
-        
-        for child in virtualObjectScene.rootNode.childNodes {
-            child.geometry?.firstMaterial?.lightingModel = .physicallyBased
-            child.movabilityHint = .movable
-            wrapperNode.addChildNode(child)
-        }
         wrapperNode.position = SCNVector3Make(anchor.center.x, 0, anchor.center.z)
+        
+        //create and add food Item
+        let foodItemNode = SCNNode()
+        for child in virtualObjectScene.rootNode.childNodes {
+            foodItemNode.addChildNode(child)
+        }
+        wrapperNode.addChildNode(foodItemNode)
+        
+        //create and add ingredients around food item
+        let ingredients = ["PotatoMashed", "Milk", "Sugar", "TeaPowder", "Water"]
+        for item in ingredients {
+            let foodNameNode = addItemWith(name: item)
+            let foodBoundingBox = foodItemNode.boundingBox
+            let totalXDist = foodBoundingBox.max.x - foodBoundingBox.min.x
+            let totalYDist = foodBoundingBox.max.y - foodBoundingBox.min.y
+            let displacement = totalXDist / Float(ingredients.count)
+            let xPos = ((Float(ingredients.index(of: item)!) * (displacement + 0.05)) + foodBoundingBox.min.x - (displacement + 0.05))
+            foodNameNode.position = SCNVector3(xPos, foodItemNode.position.y + 0.15, foodItemNode.position.z)
+
+            wrapperNode.addChildNode(foodNameNode)
+        }
+        
         return wrapperNode
     }
 }
